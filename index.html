@@ -39,6 +39,8 @@ html.m-flow #root{padding:15px 0}
 .cards::after{content:'';display:block;height:105vh;height:105svh}
 @media (max-width:640px){.card{align-items:flex-end;padding-bottom:7svh;box-sizing:border-box}.card .box{margin:0 12px;width:auto;font-size:18px}.cards::after{height:135vh;height:135svh}}
 @media (prefers-reduced-motion:reduce){.layer{transition:none}}
+/* ?dateline=1: первый визуал без прозрачных полей сверху — он закрывает строку «Tazabek -» шаблона сайта, а она сама — в начале лида */
+html.m-dl #root{padding-top:0!important}html.m-dl #root>section:first-of-type{margin-top:0!important}html.m-dl #root>p.lead b.tz{font-weight:700}
 /* десктоп: кадр 3:2 до 1300 px по центру экрана — ролики не растягиваются, у всех визуалов один формат */
 @media (min-width:700px){
   .pin{width:min(1300px,100%,150vh);height:auto;aspect-ratio:3/2;margin:0 auto;
@@ -112,6 +114,8 @@ const q = new URLSearchParams(location.search), TOP = window.top === window, LS 
 // документ прокручивается внутри, закрепление то же. Встроена старым хостом с авто-высотой — «истории»: глава — один кадр
 // с текстом поверх, шаги листаются сами (касание — вперёд/назад). ?flow=1 — прежние отдельные блоки со своими плеерами.
 let PIN = false, BOX = false;
+if (q.has('dateline')) { document.documentElement.classList.add('m-dl'); const lead = document.querySelector('#root > p.lead');
+  if (lead) lead.insertAdjacentHTML('afterbegin', '<b class="tz">Tazabek</b> - '); }
 // iframe во всю ширину экрана (широкая обёртка сайта на телефоне) — у текста свои поля; высота кадра историй — по экрану
 if (!TOP) { const full = innerWidth >= Math.min(screen.width, screen.availWidth) - 4; if (full) document.documentElement.classList.add('m-bleed');
   document.documentElement.style.setProperty('--maxw', Math.round(Math.max(480, (screen.availHeight - 170) * 1.5)) + 'px'); }
